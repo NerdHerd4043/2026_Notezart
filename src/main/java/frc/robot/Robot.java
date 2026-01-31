@@ -19,7 +19,7 @@ import org.littletonrobotics.urcl.URCL;
 
 
 
-
+@Logged
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
