@@ -19,13 +19,10 @@ import com.studica.frc.AHRS.NavXComType;
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -49,11 +46,9 @@ public class RobotContainer {
   // private final Climber climber = new Climber();
   // private final CANdleSystem candle = new CANdleSystem();
 
-  private static XboxController driveStick = new XboxController(0);
-
   // private static CommandXboxController c_driveStick2 = new
   // CommandXboxController(1);
-  private static CommandXboxController c_driveStick = new CommandXboxController(0);
+  private static CommandXboxController driveStick = new CommandXboxController(0);
 
   private SendableChooser<Command> autoChooser;
 

@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.math.system.plant.DCMotor;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -21,7 +17,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
  * constants are needed, to reduce verbosity.
  */
 public final class AutoConstants {
-  
+
   public static final class Auto {
     public static final class XPID {
       public static final double p = 1.5;
@@ -56,8 +52,9 @@ public final class AutoConstants {
       public static final double i = 0;
       public static final double d = 0;
     }
+
     public static final class Constraints {
-      
+
       public static final double maxVelocity = 2.750;
       public static final double maxAcceleration = 2.183;
       public static final double maxAngularVelocity = 360;
@@ -65,6 +62,5 @@ public final class AutoConstants {
 
     }
   }
-
 
 }
