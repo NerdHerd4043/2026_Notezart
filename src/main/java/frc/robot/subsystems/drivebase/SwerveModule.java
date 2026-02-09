@@ -21,11 +21,14 @@ import frc.robot.subsystems.drivebase.DriveConstants.SwervePID;
 
 /** Add your docs here. */
 public class SwerveModule {
-  private SparkMax angleMotor;
-  private SparkMax speedMotor;
-  private RelativeEncoder speedEncoder;
-  private PIDController pidController;
-  private CANcoder encoder;
+  private final SparkMax angleMotor;
+  private final SparkMax speedMotor;
+
+  private final CANcoder encoder;
+  private final RelativeEncoder speedEncoder;
+
+  private final PIDController pidController;
+
   private double maxVelocity;
   private double maxVoltage;
 
