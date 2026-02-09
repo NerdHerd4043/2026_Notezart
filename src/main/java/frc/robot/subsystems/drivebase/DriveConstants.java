@@ -35,9 +35,9 @@ public class DriveConstants {
   public static final double MAX_ANGULAR_VELOCITY = MAX_VELOCITY / (ModuleLocations.dist / Math.sqrt(2.0));
 
   public static final class SwervePID {
-    public static final double p = 0.12;
+    public static final double p = 0.01;
     public static final double i = 0;
-    public static final double d = 0.0015;
+    public static final double d = 0;
   }
 
   public static final class SwerveModules {

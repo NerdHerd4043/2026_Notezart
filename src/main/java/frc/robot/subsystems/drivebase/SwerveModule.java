@@ -6,9 +6,13 @@ package frc.robot.subsystems.drivebase;
 
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.encoder.SplineEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -27,7 +31,7 @@ public class SwerveModule {
   private final CANcoder encoder;
   private final RelativeEncoder speedEncoder;
 
-  private final PIDController pidController;
+  private final SparkClosedLoopController turnController;
 
   private double maxVelocity;
   private double maxVoltage;
@@ -50,15 +54,22 @@ public class SwerveModule {
         .positionConversionFactor(rotationsToDistance)
         .velocityConversionFactor(rotationsToDistance);
 
-    angleMotor.configure(angleMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    speedMotor.configure(speedMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-    this.pidController = new PIDController(SwervePID.p, SwervePID.i, SwervePID.d);
     this.encoder = new CANcoder(encoderId);
     this.maxVelocity = maxVelocity;
     this.maxVoltage = maxVoltage;
 
-    this.pidController.enableContinuousInput(-180, 180);
+    angleMotorConfig.closedLoop
+        .p(SwervePID.p)
+        .i(SwervePID.i)
+        .d(SwervePID.d)
+        .positionWrappingInputRange(-180, 180)
+        .positionWrappingEnabled(true)
+        .feedbackSensor(FeedbackSensor.kAbsoluteEncoder, encoderId);
+
+    angleMotor.configure(angleMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    speedMotor.configure(speedMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    this.turnController = this.angleMotor.getClosedLoopController();
 
     // this.speedMotor.setInverted(driveInverted);
     speedMotorConfig.inverted(true);
@@ -79,7 +90,7 @@ public class SwerveModule {
   private void drive(double speedMetersPerSecond, double angle) {
     double voltage = (speedMetersPerSecond / maxVelocity) * maxVoltage;
     speedMotor.setVoltage(voltage);
-    angleMotor.setVoltage(-pidController.calculate(this.getEncoder(), angle));
+    turnController.setSetpoint(angle, ControlType.kPosition);
   }
 
   public void drive(SwerveModuleState state) {
