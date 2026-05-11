@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import java.util.List;
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
@@ -240,6 +242,15 @@ public class Drivebase extends SubsystemBase {
     path.preventFlipping = true;
 
     return AutoBuilder.followPath(path);
+  }
+
+  public Command driveCommand(Supplier<double[]> speedXY, DoubleSupplier rot) {
+    return this.run(() -> {
+      var xy = speedXY.get();
+      var r = rot.getAsDouble();
+
+      this.defaultDrive(-xy[1], -xy[0], r);
+    });
   }
 
   public double getRobotSpeedRatio() {

@@ -9,7 +9,6 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ShooterConstants;
 // import frc.robot.commands.Climb;
-import frc.robot.commands.Drive;
 import frc.robot.commands.HIDCommands.Rumble;
 import frc.robot.commands.armCommands.MoveArm;
 import frc.robot.commands.RunIntake;
@@ -86,7 +85,7 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     drivebase.setDefaultCommand(
-        new Drive(drivebase,
+        drivebase.driveCommand(
             () -> getScaledXY(),
             () -> scaleRotationAxis(driveStick.getRightX())));
 
