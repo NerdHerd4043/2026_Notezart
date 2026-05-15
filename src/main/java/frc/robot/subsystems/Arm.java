@@ -24,10 +24,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.DoubleSubscriber;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,15 +39,6 @@ public class Arm extends SubsystemBase {
       MotorType.kBrushless);
   private SparkMax rightArmMotor = new SparkMax(ArmConstants.rightArmMotorID,
       MotorType.kBrushless);
-
-  ///// declare network table stuff
-  final DoubleSubscriber gSub;
-  final AtomicReference<Double> gValue = new AtomicReference<Double>();
-  // weird handler thing
-  int connListenerHandle;
-  int valueListenerHandle;
-  int topicListenerHandle;
-  ///////// end network table declarations
 
   private CANcoder encoder = new CANcoder(ArmConstants.encoderID);
 
@@ -72,40 +60,6 @@ public class Arm extends SubsystemBase {
 
   // /** Creates a new ProfPIDArm. */
   public Arm() {
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-
-    connListenerHandle = inst.addConnectionListener(true, event -> {
-      if (event.is(NetworkTableEvent.Kind.kConnected)) {
-        System.out.println("Connected to " + event.connInfo.remote_id);
-      } else if (event.is(NetworkTableEvent.Kind.kDisconnected)) {
-        System.out.println("Disconnected from " + event.connInfo.remote_id);
-      }
-    });
-    // get the subtable called "datatable"
-    NetworkTable datatable = inst.getTable("datatable");
-    // subscribe to the topic in "datatable" called "Y"
-    gSub = datatable.getDoubleTopic("G").subscribe(FeedForwardValues.kG);
-    // add a listener to only value changes on the Y subscriber
-    valueListenerHandle = inst.addListener(
-        gSub,
-        EnumSet.of(NetworkTableEvent.Kind.kValueAll),
-        event -> {
-          // can only get doubles because it's a DoubleSubscriber, but
-          // could check value.isDouble() here too
-          gValue.set(event.valueData.value.getDouble());
-        });
-    // add a listener to see when new topics are published within datatable
-    // the string array is an array of topic name prefixes.
-    topicListenerHandle = inst.addListener(
-        new String[] { datatable.getPath() + "/" },
-        EnumSet.of(NetworkTableEvent.Kind.kTopic),
-        event -> {
-          if (event.is(NetworkTableEvent.Kind.kPublish)) {
-            // topicInfo.name is the full topic name, e.g. "/datatable/X"
-            System.out.println("newly published " + event.topicInfo.name);
-          }
-        });
-
     // end network tables stuffs
     SparkMaxConfig leftArmMotorConfig = new SparkMaxConfig();
     SparkMaxConfig rightArmMotorConfig = new SparkMaxConfig();
@@ -207,26 +161,5 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ArmGoal", this.pidController.getGoal().position);
     SmartDashboard.putNumber("pos", getMeasurement());
     SmartDashboard.putNumber("encoder", getEncoder());
-
-    // update gravity PID
-
-    // get the latest value by reading the AtomicReference; set it to null
-    // when we read to ensure we only get value changes
-    Double value = gValue.getAndSet(null);
-    if (value != null) {
-      feedforward.setKg(value);
-    }
-
   }
-
-  public void close() {
-
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    inst.removeListener(topicListenerHandle);
-    inst.removeListener(valueListenerHandle);
-    inst.removeListener(connListenerHandle);
-    gSub.close();
-
-  }
-
 }
