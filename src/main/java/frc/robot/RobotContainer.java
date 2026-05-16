@@ -219,13 +219,12 @@ public class RobotContainer {
 
     // Release Shooter
     c_driveStick.rightBumper().onFalse( // shoot note when button is released
-        Commands.sequence(
-            Commands.race(
-                Commands.parallel(
-                    new Shoot(shooter, ShooterConstants.shooterSpeed),
-                    new RunIntake(intake, 0.5, IntakeConstants.kickupSpeed),
-                    new Rumble(driveStick, beamBreak, shooter::isReady)),
-                new WaitCommand(0.5))));
+        Commands.race(
+            Commands.parallel(
+                new Shoot(shooter, ShooterConstants.shooterSpeed),
+                new RunIntake(intake, 0.5, IntakeConstants.kickupSpeed),
+                new Rumble(driveStick, beamBreak, shooter::isReady)),
+            new WaitCommand(0.5)));
 
     // Set arm to podium angle
     c_driveStick.a().onTrue(Commands.runOnce(arm::armPodium, arm));
