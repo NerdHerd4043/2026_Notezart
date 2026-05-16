@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -48,6 +49,20 @@ public class Shooter extends SubsystemBase {
 
   public void stopShooter() {
     topShootMotor.stopMotor();
+  }
+
+  // Commands
+
+  public Command shootCommand(double speed) {
+    return this.runEnd(() -> {
+      this.spinShooter(speed);
+    }, () -> {
+      this.stopShooter();
+    });
+  }
+
+  public Command shootCommand() {
+    return this.shootCommand(ShooterConstants.shooterSpeed);
   }
 
   @Override
