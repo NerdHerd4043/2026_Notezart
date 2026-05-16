@@ -11,9 +11,11 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
+@Logged
 public class Shooter extends SubsystemBase {
   private SparkMax topShootMotor = new SparkMax(ShooterConstants.topShootMotorID, MotorType.kBrushless);
   private SparkMax bottomShootMotor = new SparkMax(ShooterConstants.bottomShootMotorID, MotorType.kBrushless);
