@@ -208,6 +208,7 @@ public class RobotContainer {
         new Rumble(driveStick, beamBreak, () -> false))); // rumble controller if note is visible
 
     // Charge Shooter
+    // FIXME: Magic number
     c_driveStick.rightBumper()
         .whileTrue(Commands.parallel(
             shooter.shootCommand(),
@@ -215,6 +216,7 @@ public class RobotContainer {
             new Rumble(driveStick, beamBreak, shooter::isReady))); // spin up flywheels while button is held
 
     // Release Shooter
+    // FIXME: Magic number
     c_driveStick.rightBumper().onFalse( // shoot note when button is released
         Commands.race(
             Commands.parallel(
