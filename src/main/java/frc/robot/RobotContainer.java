@@ -12,7 +12,6 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.HIDCommands.Rumble;
 import frc.robot.commands.armCommands.MoveArm;
-import frc.robot.commands.RunIntake;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Intake;
@@ -205,14 +204,14 @@ public class RobotContainer {
 
     // Intake
     c_driveStick.leftBumper().whileTrue(Commands.parallel(
-        new RunIntake(intake, IntakeConstants.intakeSpeed, -IntakeConstants.kickupSpeed), // toggle intake on/off
+        intake.intakeCommand(),
         new Rumble(driveStick, beamBreak, () -> false))); // rumble controller if note is visible
 
     // Charge Shooter
     c_driveStick.rightBumper()
         .whileTrue(Commands.parallel(
             shooter.shootCommand(),
-            new RunIntake(intake, 0.5, -IntakeConstants.kickupSpeed),
+            intake.intakeCommand(0.5, -IntakeConstants.kickupSpeed),
             new Rumble(driveStick, beamBreak, shooter::isReady))); // spin up flywheels while button is held
 
     // Release Shooter
@@ -220,7 +219,7 @@ public class RobotContainer {
         Commands.race(
             Commands.parallel(
                 shooter.shootCommand(),
-                new RunIntake(intake, 0.5, IntakeConstants.kickupSpeed),
+                intake.intakeCommand(0.5, IntakeConstants.kickupSpeed),
                 new Rumble(driveStick, beamBreak, shooter::isReady)),
             new WaitCommand(0.5)));
 
@@ -234,8 +233,7 @@ public class RobotContainer {
     c_driveStick.x().onTrue(Commands.runOnce(arm::armUp, arm));
 
     // Spit out note
-    c_driveStick.start()
-        .whileTrue(new RunIntake(intake, -IntakeConstants.intakeSpeed, -IntakeConstants.kickupSpeed));
+    c_driveStick.start().whileTrue(intake.reverseIntakeCommand());
 
     // Driver climb controls
     // c_driveStick.x().whileTrue(new Climb(climber, 1)); // climber up

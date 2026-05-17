@@ -12,6 +12,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
@@ -51,6 +52,22 @@ public class Intake extends SubsystemBase {
   public void stopIntake() {
     intakeMotor.stopMotor();
     kickupMotor.stopMotor();
+  }
+
+  public Command intakeCommand(double intakeSpeed, double kickupSpeed) {
+    return this.runEnd(() -> {
+      this.runIntake(intakeSpeed, kickupSpeed);
+    }, () -> {
+      this.stopIntake();
+    });
+  }
+
+  public Command intakeCommand() {
+    return this.intakeCommand(IntakeConstants.intakeSpeed, -IntakeConstants.kickupSpeed);
+  }
+
+  public Command reverseIntakeCommand() {
+    return this.intakeCommand(-IntakeConstants.intakeSpeed, -IntakeConstants.kickupSpeed);
   }
 
   @Override
