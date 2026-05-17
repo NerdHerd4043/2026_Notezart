@@ -185,3 +185,7 @@ compile_commands.json
 
 # Eclipse generated file for annotation processors
 .factorypath
+
+# AdvantageKit
+# https://docs.advantagekit.org/getting-started/installation/version-control#gversion
+src/main/java/frc/robot/BuildConstants.java
