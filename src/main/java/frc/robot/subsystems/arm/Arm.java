@@ -26,7 +26,6 @@ import frc.robot.subsystems.arm.ArmConstants.ArmPositions;
 import frc.robot.subsystems.arm.ArmConstants.FeedForwardValues;
 import frc.robot.subsystems.arm.ArmConstants.PIDValues;
 
-@Logged
 public class Arm extends SubsystemBase {
   private SparkMax leftArmMotor = new SparkMax(ArmConstants.leftArmMotorID,
       MotorType.kBrushless);
@@ -132,7 +131,6 @@ public class Arm extends SubsystemBase {
     return encoder.getAbsolutePosition().getValueAsDouble();
   }
 
-  @Logged
   public double getEncoderRadians() {
     return getEncoder() * 2 * Math.PI;
   }

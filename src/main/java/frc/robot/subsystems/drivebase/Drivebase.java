@@ -42,7 +42,6 @@ import frc.robot.subsystems.drivebase.DriveConstants.SwerveModules;
 import frc.robot.Constants.PathPlannerConstants.RotationPID;
 import frc.robot.Constants.PathPlannerConstants.TranslationPID;
 
-@Logged
 public class Drivebase extends SubsystemBase {
   private final double DRIVE_REDUCTION = 1.0 / 6.75;
   private final double NEO_FREE_SPEED = 5820.0 / 60.0;

@@ -23,7 +23,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
-import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -45,7 +44,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-@Logged
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
