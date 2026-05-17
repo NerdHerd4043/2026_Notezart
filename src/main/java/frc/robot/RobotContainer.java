@@ -200,42 +200,64 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Gyro Reset
-    c_driveStick.povUp().onTrue(Commands.runOnce(gyro::reset));
+    c_driveStick
+        .povUp()
+        .onTrue(
+            Commands.runOnce(gyro::reset));
 
     // Intake
-    c_driveStick.leftBumper().whileTrue(Commands.parallel(
-        intake.intakeCommand(),
-        new Rumble(driveStick, beamBreak, () -> false))); // rumble controller if note is visible
+    c_driveStick
+        .leftBumper()
+        .whileTrue(
+            Commands.parallel(
+                intake.intakeCommand(),
+                new Rumble(driveStick, beamBreak, () -> false))); // rumble controller if note is visible
 
     // Charge Shooter
     // FIXME: Magic number
-    c_driveStick.rightBumper()
-        .whileTrue(Commands.parallel(
-            shooter.shootCommand(),
-            intake.intakeCommand(0.5, -IntakeConstants.kickupSpeed),
-            new Rumble(driveStick, beamBreak, shooter::isReady))); // spin up flywheels while button is held
+    c_driveStick
+        .rightBumper()
+        .whileTrue(
+            Commands.parallel(
+                shooter.shootCommand(),
+                intake.intakeCommand(0.5, -IntakeConstants.kickupSpeed),
+                new Rumble(driveStick, beamBreak, shooter::isReady))); // spin up flywheels while button is held
 
     // Release Shooter
     // FIXME: Magic number
-    c_driveStick.rightBumper().onFalse( // shoot note when button is released
-        Commands.race(
-            Commands.parallel(
-                shooter.shootCommand(),
-                intake.intakeCommand(0.5, IntakeConstants.kickupSpeed),
-                new Rumble(driveStick, beamBreak, shooter::isReady)),
-            new WaitCommand(0.5)));
+    c_driveStick
+        .rightBumper()
+        .onFalse( // shoot note when button is released
+            Commands.race(
+                Commands.parallel(
+                    shooter.shootCommand(),
+                    intake.intakeCommand(0.5, IntakeConstants.kickupSpeed),
+                    new Rumble(driveStick, beamBreak, shooter::isReady)),
+                new WaitCommand(0.5)));
 
     // Set arm to podium angle
-    c_driveStick.a().onTrue(Commands.runOnce(arm::armPodium, arm));
+    c_driveStick
+        .a()
+        .onTrue(
+            Commands.runOnce(arm::armPodium, arm));
 
     // Set arm down
-    c_driveStick.y().onTrue(Commands.runOnce(arm::armDown, arm));
+    c_driveStick
+        .y()
+        .onTrue(
+            Commands.runOnce(arm::armDown, arm));
 
     // Set arm up
-    c_driveStick.x().onTrue(Commands.runOnce(arm::armUp, arm));
+    c_driveStick
+        .x()
+        .onTrue(
+            Commands.runOnce(arm::armUp, arm));
 
     // Spit out note
-    c_driveStick.start().whileTrue(intake.reverseIntakeCommand());
+    c_driveStick
+        .start()
+        .whileTrue(
+            intake.reverseIntakeCommand());
 
     // Driver climb controls
     // c_driveStick.x().whileTrue(new Climb(climber, 1)); // climber up
