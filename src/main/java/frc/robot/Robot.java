@@ -4,7 +4,16 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import org.littletonrobotics.urcl.URCL;
+
+import com.revrobotics.util.StatusLogger;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -53,6 +62,10 @@ public class Robot extends LoggedRobot {
       Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
       Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a new log
     }
+
+    // Initialize URCL
+    Logger.registerURCL(URCL.startExternal());
+    StatusLogger.disableAutoLogging(); // Disable REVLib's built-in logging
 
     Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
                     // be added.
