@@ -80,11 +80,18 @@ public class SwerveModule {
   }
 
   public void drive(SwerveModuleState state) {
-    SwerveModuleState optimized = SwerveModuleState.optimize(state, new Rotation2d(getEncoderRadians()));
+    // TODO: Investigate if this is just a weird api,
+    // or java best practice being weird
+    SwerveModuleState optimized = new SwerveModuleState(state.speedMetersPerSecond, state.angle);
+    optimized.optimize(this.getRotation());
     this.drive(optimized.speedMetersPerSecond, optimized.angle.getDegrees());
   }
 
   public double getEncoder() {
+    // TODO: I'd like to figure out what the baseUnit is for this signal,
+    // as well as whether that can be relied on so that we can use
+    // the proper type with units from the outset
+    // encoder.getAbsolutePosition().getValue().baseUnit();
     return encoder.getAbsolutePosition().getValueAsDouble() * 360.0;
   }
 
