@@ -36,10 +36,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.RobotConfigInfo;
-import frc.robot.Constants.DriveConstants.ModuleLocations;
-import frc.robot.Constants.DriveConstants.SwerveModules;
+import frc.robot.subsystems.drivebase.DriveConstants.ModuleLocations;
+import frc.robot.subsystems.drivebase.DriveConstants.SwerveModules;
 import frc.robot.Constants.PathPlannerConstants.RotationPID;
 import frc.robot.Constants.PathPlannerConstants.TranslationPID;
 
