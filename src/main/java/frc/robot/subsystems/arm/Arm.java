@@ -79,12 +79,11 @@ public class Arm extends SubsystemBase {
 
     this.rightReverseLimitSwitch = this.rightArmMotor.getReverseLimitSwitch();
 
-    this.pidController.setGoal(getEncoderRadians());
+    this.pidController.setGoal(this.getEncoder());
   }
 
   private void useOutput(double output, TrapezoidProfile.State setpoint) {
-    ffOutput = -feedforward.calculate(setpoint.position, setpoint.velocity);
-    output = -output;
+    ffOutput = feedforward.calculate(setpoint.position, setpoint.velocity);
     rightArmMotor.setVoltage(ffOutput + output);
   }
 
@@ -96,12 +95,8 @@ public class Arm extends SubsystemBase {
   public void setTarget(double target, boolean podium) {
     // ArmPositions.upper is lower than ArmPositions.lower
     this.podium = podium;
-    this.pidController.setGoal(MathUtil.clamp(target, ArmPositions.lowerRad,
-        ArmPositions.upperRad));
-  }
-
-  public void setTargetRotations(double target) {
-    setTarget(target * 2 * Math.PI);
+    double clampedTarget = MathUtil.clamp(target, ArmPositions.lower, ArmPositions.upper);
+    this.pidController.setGoal(clampedTarget);
   }
 
   public void adjustTarget(double delta) {
@@ -114,35 +109,30 @@ public class Arm extends SubsystemBase {
 
   public void armPodium() {
     if (podium) {
-      setTarget(ArmPositions.upperRad);
+      setTarget(ArmPositions.upper);
     } else {
       setTarget(ArmPositions.podium, true);
     }
   }
 
   public void armUp() {
-    setTarget(ArmPositions.lowerRad);
+    setTarget(ArmPositions.upper);
   }
 
   public void armDown() {
-    setTarget(ArmPositions.upperRad);
+    setTarget(ArmPositions.lower);
   }
 
   public double getEncoder() {
     return encoder.getAbsolutePosition().getValueAsDouble();
   }
 
-  @Logged
-  public double getEncoderRadians() {
-    return getEncoder() * 2 * Math.PI;
-  }
-
   public double getMeasurement() {
     // Return the process variable measurement here
-    return getEncoderRadians();
+    return getEncoder();
   }
 
-  public Command runArmDown() {
+  public Command armDownCommand() {
     return this.runOnce(() -> this.armDown());
   }
 

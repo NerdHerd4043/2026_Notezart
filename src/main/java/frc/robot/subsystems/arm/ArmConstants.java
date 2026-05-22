@@ -22,12 +22,13 @@ public final class ArmConstants {
     public static final double kV = 0; // old 3
   }
 
+  /* Unit: rotations */
   public static final class ArmPositions {
-    public static final double lower = 0.6285;
-    public static final double lowerRad = lower;
-    public static final double upper = 2.008;
-    public static final double upperRad = upper;
+    public static final double lower = 0;
+    public static final double upper = 0.26;
 
-    public static final double podium = 1.2;
+    public static final double level = 0.02;
+
+    public static final double podium = 0.1;
   }
 }
