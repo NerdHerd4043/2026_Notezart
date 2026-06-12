@@ -11,6 +11,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -46,6 +47,8 @@ public class SwerveModule {
     speedMotorConfig.encoder
         .positionConversionFactor(rotationsToDistance)
         .velocityConversionFactor(rotationsToDistance);
+
+    speedMotorConfig.idleMode(IdleMode.kBrake);
 
     angleMotor.configure(angleMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     speedMotor.configure(speedMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

@@ -10,7 +10,7 @@ public final class ArmConstants {
 
   // FIXME: Needs to be tuned for new gear ratios
   public static final class PIDValues {
-    public static final double p = 0; // old 4
+    public static final double p = 200; // old 4
     public static final double i = 0;
     public static final double d = 0; // old 1.7
   }
@@ -18,8 +18,8 @@ public final class ArmConstants {
   // FIXME: Needs to be tuned for new gear ratios
   public static final class FeedForwardValues {
     public static final double kS = 0; // old 0.07
-    public static final double kG = 0; // old 0.4
-    public static final double kV = 0; // old 3
+    public static final double kG = 0.4; // old 0.4
+    public static final double kV = 4; // old 3
   }
 
   /* Unit: rotations */

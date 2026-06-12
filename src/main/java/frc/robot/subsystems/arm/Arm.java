@@ -49,7 +49,10 @@ public class Arm extends SubsystemBase {
       PIDValues.p,
       PIDValues.i,
       PIDValues.d,
-      new TrapezoidProfile.Constraints(6, 5));
+      // These numbers are just thrown at the wall,
+      // I'd like to spend some time trying to come to these
+      // intentionally
+      new TrapezoidProfile.Constraints(1, 0.5));
 
   // /** Creates a new ProfPIDArm. */
   public Arm() {
@@ -104,7 +107,7 @@ public class Arm extends SubsystemBase {
       podium = false;
     }
 
-    setTarget(this.pidController.getGoal().position + delta, podium);
+    setTarget(this.pidController.getGoal().position + (delta * 0.01), podium);
   }
 
   public void armPodium() {
@@ -141,6 +144,7 @@ public class Arm extends SubsystemBase {
     useOutput(pidController.calculate(getMeasurement()),
         pidController.getSetpoint());
 
+    SmartDashboard.putNumber("ArmSetpoint", this.pidController.getSetpoint().position);
     SmartDashboard.putNumber("ArmGoal", this.pidController.getGoal().position);
     SmartDashboard.putNumber("pos", getMeasurement());
     SmartDashboard.putNumber("encoder", getEncoder());
