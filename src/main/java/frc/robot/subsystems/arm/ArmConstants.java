@@ -10,7 +10,7 @@ public final class ArmConstants {
 
   // FIXME: Needs to be tuned for new gear ratios
   public static final class PIDValues {
-    public static final double p = 200; // old 4
+    public static final double p = 256; // old 4
     public static final double i = 0;
     public static final double d = 0; // old 1.7
   }
@@ -25,7 +25,7 @@ public final class ArmConstants {
   /* Unit: rotations */
   public static final class ArmPositions {
     public static final double lower = 0;
-    public static final double upper = 0.26;
+    public static final double upper = 0.20; // vertical is 0.26
 
     public static final double level = 0.02;
 
