@@ -237,19 +237,19 @@ public class RobotContainer {
 
     // Set arm to podium angle
     c_driveStick
-        .a()
+        .x()
         .onTrue(
             Commands.runOnce(arm::armPodium, arm));
 
     // Set arm down
     c_driveStick
-        .y()
+        .a()
         .onTrue(
             Commands.runOnce(arm::armDown, arm));
 
     // Set arm up
     c_driveStick
-        .x()
+        .y()
         .onTrue(
             Commands.runOnce(arm::armUp, arm));
 
